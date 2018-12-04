@@ -5,6 +5,7 @@ const sb = new Sendbird({
   appId: keys.appID
 });
 
+/*
 sb.connect(
   keys.superuserID,
   function(user, error) {
@@ -13,5 +14,6 @@ sb.connect(
     }
   }
 );
+*/
 
 module.exports = sb;
