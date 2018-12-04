@@ -95,6 +95,22 @@ router.post("/reply_emotion", (req, res) => {
   fs.writeFile("temp.txt", message, (err, data) => {
     if (err) console.log(err);
     else {
+      request.post(
+        { url: keys.deeplearning_server_ip_and_port, form: { key: message } },
+        function(error, response, body) {
+          if (error) {
+            console.log("error:", error); // Print the error if one occurred
+            return;
+          }
+          console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+          console.log("body:", body); // Print the HTML for the Google homepage.
+          const _emotion = body;
+          res.json({
+            emotion: parseInt(_emotion)
+          });
+        }
+      );
+      /*
       request(keys.deeplearning_server_ip_and_port, function(
         error,
         response,
@@ -108,6 +124,7 @@ router.post("/reply_emotion", (req, res) => {
           emotion: parseInt(_emotion)
         });
       });
+      */
     }
   });
 });
