@@ -96,7 +96,7 @@ router.post("/reply_emotion", (req, res) => {
     if (err) console.log(err);
     else {
       request.post(
-        { url: keys.deeplearning_server_ip_and_port, form: { key: message } },
+        { url: "http://sungju1.unist.ac.kr:8000", form: { key: message } },
         function(error, response, body) {
           if (error) {
             console.log("error:", error); // Print the error if one occurred
@@ -127,6 +127,31 @@ router.post("/reply_emotion", (req, res) => {
       */
     }
   });
+});
+
+// @route   POST api/emotion/reply_emotion
+// @desc    predict the emotion of reply for given messagjjjjjjjjjjjjue
+//          req:(user_id, chat_room_url, message) res:(emotion of reply)
+// @access  Public
+router.post("/present_emotion", (req, res) => {
+  console.log("obtain request of POST present_emotion");
+  const message = req.body.message;
+  console.log("message: " + message);
+  request.post(
+    { url: "http://sungju1.unist.ac.kr:8001", form: { key: message } },
+    function(error, response, body) {
+      if (error) {
+        console.log("error:", error); // Print the error if one occurred
+        return;
+      }
+      console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+      console.log("body:", body); // Print the HTML for the Google homepage.
+      const _emotion = body;
+      res.json({
+        emotion: parseInt(_emotion)
+      });
+    }
+  );
 });
 
 // @route   POST api/emotion/emotion_distribution
